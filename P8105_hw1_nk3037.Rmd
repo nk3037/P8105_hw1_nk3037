@@ -46,7 +46,7 @@ labs(x = "Hourly Timestamp for Jan 1-15, 2013", y = "Temperature (ºC)", color =
 
 ```
 
-Patterns in the plot:
+### Patterns in the plot:
 Overall, the trend is that the temperature rose between Jan 1, 2013 and Jan 15, 2013.
 Generally, the humidity percentage also increased between Jan 1, 2013 and Jan 15, 2013.
 The plot also shows a daily high temperature during the daytime for each day and a drop in temperature during the nighttime.
@@ -110,6 +110,7 @@ print(as.numeric(pull(question2_df, vec_logical)))
 print(as.numeric(pull(question2_df, vec_char)))
 print(as.numeric(pull(question2_df, vec_factor)))
 ```
+
 
 It is possible to find the mean of a logical variable since R reads TRUE as 1 and FALSE as 0. When as.numeric() is applied to vec_logical, the resulting vector will contain the numerical values of 0 and 1.
 
