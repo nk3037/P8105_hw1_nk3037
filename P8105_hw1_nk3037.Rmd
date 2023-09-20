@@ -1,0 +1,118 @@
+---
+title: "P8105 Homework 1"
+author: "Navya Koneripalli"
+date: "2023-09-20"
+output: github_document
+---
+# Question 1
+## Setup
+This chunk loads necessary packages and datasets
+```{r setup}
+library(tidyverse)
+library(moderndive)
+data("early_january_weather")
+```
+
+## Description of the data:
+
+The "early_january_dataset" contains hourly temperature, dewpoint, humidity, wind direction, windspeed, wind gust, precipitation and visibility measurements from EWR for the first 15 days of January 2013.
+
+### Number of rows in the dataset
+```{r # of rows in the data set}
+print(nrow(early_january_weather)) #printing the number of rows in "early_january_dataset"
+```
+
+There are 358 rows in the "early_january_dataset".
+
+### Number of columns in the dataset
+```{r # of columns in the data set}
+print(ncol(early_january_weather)) #printing the number of columns in "early_january_dataset"
+```
+
+There are 15 columns in the "early_january_dataset".
+
+### Mean temperature
+```{r calculating the mean temperature}
+mean_temp = mean(early_january_weather$temp) #creating a variable called mean_temp for the average of the hourly temperature variable in the early_january_dataset.
+print(mean_temp) #printing the mean_temp variable
+```
+
+The mean hourly temperature measurement taken from EWR in the first 15 days of January 2013 is 39.58212 degrees.
+
+## Creating a scatterplot
+```{r creating a scatterplot}
+ggplot(early_january_weather, aes(x = time_hour, y = temp, color = humid)) + geom_point() + #created a scatterplot with time_hour (x-axis) vs temp (y-axis) where the scatterplot points are colored based on the "humid" variable
+labs(x = "Hourly Timestamp for Jan 1-15, 2013", y = "Temperature (ºC)", color = "Humidity (%)") #Modified the scatterplot labels for ease of understanding
+
+```
+
+Patterns in the plot:
+Overall, the trend is that the temperature rose between Jan 1, 2013 and Jan 15, 2013.
+Generally, the humidity percentage also increased between Jan 1, 2013 and Jan 15, 2013.
+The plot also shows a daily high temperature during the daytime for each day and a drop in temperature during the nighttime.
+
+## Saving the scatterplot
+```{r saving the scatterplot}
+ggsave("P8105_hw1_nk3037.pdf") #saved the plot as a .pdf file named "P8105_hw1_nk3037")
+```
+
+
+# Question 2
+
+## Creating a dataframe
+```{r creating a dataframe}
+question2_df =
+    tibble(
+      vec_numeric = rnorm(10), #vector called vec_numeric that contains 10 randomly generated numbers that are normally distributed
+      vec_logical = vec_numeric > 0, #vector called vec_logical that contains logical values of whether the numbers in random_sample are greater than 0
+      vec_char = c("L", "M", "N", "O", "P", "Q", "R", "S", "T", "U"), #vector containing 10 characters
+      vec_factor = factor(sample(1:3, 10, replace = TRUE), levels = c(1, 2, 3)) #factor vector of length 10, with 3 different factor “levels”
+    )
+```
+
+## Taking the mean of each variable
+
+### Calculating the mean of vec_numeric
+```{r Calculating the mean of vec_numeric}
+mean_vec_numeric = mean(pull(question2_df, vec_numeric)) #using the pull function to pull vec_numeric out of the dataframe and calculating the mean
+print(mean_vec_numeric) #printing the newly created mean_vec_numeric variable
+```
+**It is possible to take a mean of the vec_numeric variable in the question2_df**
+
+### Calculating the mean of vec_logical
+```{r Calculating the mean of vec_logical}
+mean_vec_logical = mean(pull(question2_df, vec_logical)) #using the pull function to pull vec_logical out of the dataframe and calculating the mean
+print(mean_vec_logical) #printing the newly created mean_vec_logical variable
+```
+**It is possible to take a mean of the vec_logical variable in the question2_df**
+
+This is because R reads the logical value TRUE as 1 and FALSE as 0.
+
+### Calculating the mean of vec_char
+```{r Calculating the mean of vec_char}
+mean_vec_char = mean(pull(question2_df, vec_char)) #using the pull function to pull vec_char out of the dataframe and calculating the mean
+print(mean_vec_char) #printing the newly created mean_vec_char variable
+```
+**It is *NOT* possible to take a mean of the vec_char variable in the question2_df**
+
+### Calculating the mean of vec_factor
+```{r Calculating the mean of vec_factor}
+mean_vec_factor = mean(pull(question2_df, vec_factor)) #using the pull function to pull vec_factor out of the dataframe and calculating the mean
+print(mean_vec_factor) #printing the newly created mean_vec_factor variable
+```
+**It is *NOT* possible to take a mean of the vec_factor variable in the question2_df**
+
+## Converting variable types
+
+### Applying the as.numeric function to the logical, character, and factor variables 
+```{r, results ='hide', warning=FALSE}
+print(as.numeric(pull(question2_df, vec_logical)))
+print(as.numeric(pull(question2_df, vec_char)))
+print(as.numeric(pull(question2_df, vec_factor)))
+```
+
+It is possible to find the mean of a logical variable since R reads TRUE as 1 and FALSE as 0. When as.numeric() is applied to vec_logical, the resulting vector will contain the numerical values of 0 and 1.
+
+It is not possible to find the mean of a character variable. When as.numeric() is applied to characters, R is unable to convert the character data type into numeric data type and so the resulting vector contains only NA.
+
+It is not possible to find the mean of a factor variable. When as.numeric() is applied to factors, R converts each level into its corresponding numeric value (level 3 is stored as "3"). The resulting vector contains numeric values (in this case the vector contains 1,2 and 3 because the factor vector was defined to have three levels)
